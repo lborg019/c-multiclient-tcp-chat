@@ -40,9 +40,9 @@ int main(int argc, char *argv[])
 {
     char message[MAXDATASIZE];
     char nickName[MAXNAMESIZE];
-    int *new_sockfd; //added
-    int sockfd, numbytes;  
-    char buf[MAXDATASIZE];
+    //int *new_sockfd; //added
+    int sockfd;//, numbytes;  
+    //char buf[MAXDATASIZE];
     char sBuf[MAXDATASIZE]; //added
     struct addrinfo hints, *servinfo, *p;
     int rv;
@@ -105,19 +105,20 @@ int main(int argc, char *argv[])
     //pthread_t recv_thread;
    
     //create a new fork to keep receiving messages:
-    int iStackVariable = 20;
+    //int iStackVariable = 20;
     
     pid_t pID = fork(); //pass sockfd to fork
    
     if(pID == 0)	//child
     {
-        int* sFd = (int*) sockfd;
-        char buffer[MAXDATASIZE];
+        //int* sFd = (int*) sockfd;
+        int* sFd = &sockfd;
+		char buffer[MAXDATASIZE];
         int nBytes;
 
         for(;;)
         {
-            if ((nBytes = recv(sFd, buffer, MAXDATASIZE-1, 0)) == -1)
+            if ((nBytes = recv(*sFd, buffer, MAXDATASIZE-1, 0)) == -1) //*sFd instead of sFd
             {
                 perror("recv");
                 exit(1);
