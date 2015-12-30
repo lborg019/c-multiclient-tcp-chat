@@ -2,7 +2,8 @@
  * server.c
  * gcc server.c
  * ./a.out
- */
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,15 +15,13 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
-#include <dirent.h>
 
-#define PORT "5678"   // port we're listening on
+#define PORT "9034"   // port we're listening on
 
 // get sockaddr, IPv4 or IPv6:
 void *get_in_addr(struct sockaddr *sa)
 {
-    if (sa->sa_family == AF_INET)
-    {
+    if (sa->sa_family == AF_INET) {
         return &(((struct sockaddr_in*)sa)->sin_addr);
     }
 
@@ -81,7 +80,7 @@ int main(void)
         break;
     }
 
-    // if we got here, binding failed.
+    // if we got here, bondage failed.
     if (p == NULL) {
         fprintf(stderr, "selectserver: failed to bind\n");
         exit(2);
@@ -90,14 +89,13 @@ int main(void)
     freeaddrinfo(ai); //all done; free memory
     
     puts("binding successful!");
-   
     // listen
     if (listen(listener, 10) == -1)
     {
         perror("listen");
         exit(3);
     }
-    puts("server listening...");
+    puts("hearing aid is on, server listening...");
     
     // add the listener to the master set
     FD_SET(listener, &master);
