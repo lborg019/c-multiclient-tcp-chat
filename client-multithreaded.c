@@ -40,9 +40,9 @@ int main(int argc, char *argv[])
 {
     char message[MAXDATASIZE];
     char nickName[MAXNAMESIZE];
-    int *new_sockfd; //added
-    int sockfd, numbytes;  
-    char buf[MAXDATASIZE];
+    //int *new_sockfd; //added
+    int sockfd;//, numbytes;  
+    //char buf[MAXDATASIZE];
     char sBuf[MAXDATASIZE]; //added
     struct addrinfo hints, *servinfo, *p;
     int rv;
@@ -102,8 +102,9 @@ int main(int argc, char *argv[])
     //new_sockfd = malloc(sizeof(int));
     //new_sockfd = sockfd;
     
-    if( pthread_create(&recv_thread, NULL, receive_handler, (void*)sockfd) < 0)
-    { //(void*) sockfd
+    if( pthread_create(&recv_thread, NULL, receive_handler, (void*)(intptr_t) sockfd) < 0)
+    {   //we passed (intptr_t) instead of (void*) sockfd to supress warnings
+		//use structs if passing more than one argument
         perror("could not create thread");
         return 1;
     }    
@@ -156,7 +157,8 @@ int main(int argc, char *argv[])
 //thread function
 void *receive_handler(void *sock_fd)
 {
-    int* sFd = (int*) sock_fd;
+    //int* sFd = (int*) sock_fd;
+	int sFd = (intptr_t) sock_fd;
     char buffer[MAXDATASIZE];
     int nBytes;
     
