@@ -113,11 +113,25 @@ int main(int argc, char *argv[])
     //send message to server:
     puts("Connected\n");
     puts("[Type '/quit' to quit]");
-    while(strcmp(sBuf,"/quit") != 0)
-    {
+
+    //while(strcmp(sBuf,"/quit") != 0)
+    for(;;)
+	{
+		char temp[6];
+		memset(&temp, sizeof(temp), 0);
+
         memset(&sBuf, sizeof(sBuf), 0); //clean sendBuffer
         fgets(sBuf, 100, stdin); //gets(message);
-        int count = 0;
+
+		if(sBuf[0] == '/' &&
+		   sBuf[1] == 'q' &&
+		   sBuf[2] == 'u' &&
+		   sBuf[3] == 'i' &&
+		   sBuf[4] == 't')
+			return 1;
+		
+			
+		int count = 0;
         while(count < strlen(nickName))
         {
             message[count] = nickName[count];
@@ -126,6 +140,7 @@ int main(int argc, char *argv[])
         count--;
         message[count] = ':';
         count++;
+		//prepend
         for(int i = 0; i < strlen(sBuf); i++)
         {
             message[count] = sBuf[i];
