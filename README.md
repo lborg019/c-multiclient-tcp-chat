@@ -1,5 +1,5 @@
 # TCP-chatroom
-Client/Server TCP chat room implementation in C using POSIX threads (multithread)
+Client/Server TCP chat room implementation in C using sockets POSIX threads (multithread)
 
 Processes branch has equivalent code using fork() instead of pthread_create()
 
